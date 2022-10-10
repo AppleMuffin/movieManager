@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+
+<!-- PSEUDO CODE 
+(note: try storing all states in APP for now, and we can funnel them to sspecific components when we've finalized our structure)
+states: movieInput, movieObjects, newList, dbLists
+
+Main Flow:
+- CHECK - An input takes a user-defined query for movie titles
+- CHECK - On change, an attached event handler adds input to movieInput state
+- CHECK - on input submission, an API call to TMDB is made with the movieInput state
+- CHECK - API returns an object holding movie information to movieObjects state
+- any time movieObjects changes (aka any time an API call is made), query results maps movieObjects and displays information (imgs, description, etc) in component (with an add button)
+
+in Make List Component:
+// CHECK - A user text input for naming a new list
+// CHECK - A button for adding a list.
+// CHECK - On changing input field, setlist()
+// CHECK - On submit, handleListCreation() function pushes listState to firebase.
+// CHECK - dbList state stores the objects that hold the listName property, and displays it on the page 
+// CHECK - underneath, a div holding all the user made lists
+
+Query Results Component:
+- clicking add button, a modal component pops up and asks which List the user wants to send movieObject to. the list choices are in a dropdown. Choosing a list (that HOLDS THE LIST ID) and clicking the add button updates setList and sends to firebase:
+
+firebase root {
+
+  uniqueKey1 { <- premade set lists made in firebase 
+    ListName: '' <- list name defined by user in Make List component
+      movieObject {
+      }
+    movieObject {
+      }
+  }
+
+  uniqueKey2{
+    ListName: 'name2'
+    movieObject {
+    }
+    movieObject2 {
+    }
+  }
+
+}
+
+In User Generated List component:
+- useEffect that sets dbList using information from firebase. This information is displayed on the page.
+- Natural Language Form: onChange of its inputs, filter() loops through the movie objects and randomly returns a movie fitting the NLF criteria. (visually displayed for user) 
+
+FOR LOOP IN ORDER TO ACCESS JUST THE LIST NAMES:
+
+ for (let listObject in data) {
+        // inside the loop, we push each list name to an array we already created inside the onValue() function:
+        // setdbList(data[listObject]);
+        // console.log(data[listObject].listName);
+        const listNames = data[listObject].listName;
+        // console.log(listNames);
+        
+        dbListArray.push(listNames);
+        
+      }
+      // console.log(dbList1);
+      setdbList(dbListArray);
+    })
+
+  }, [])
+
+
+4 components
+Header that includes the following:
+H1 displaying title. underneath, an input accepting user queries for movie titles. Returns an API call from TMDB API that provides a list of movies + information. stored in a useState state
+a p holding an explanation of how to use the app. Could also include a button that reveals a p in every component explaining how to use it
+
+Make List component - a section that includes:
+button. on click, opens a modal div that provides users with the ability to create and name lists:
+h2 - Create a list
+input - for naming your list
+button - for submitting your input. on click, function runs that creates a routed component (Use Movie List). Also, in Make List, the name of that list that was just created will be generated. clicking on this will mount the list component of the same name
+
+Query Results component
+this is the section that returns all of the movies from the user query in the header:
+a ul containing multiple divs.movie:
+img containing movie  poster and a p including description information
+also, an add button. This button will open a modal asking which list the user wants to send their movie to. (NOTE: probably need to add a funciton to make a list in here as well for UX accessibility) On click, the movie information from the API call is saved in firebase. this information is pulled.
+
+User List Component
+a series of lists that contain movies the user sent from the query section.
+h2: the name of the list currently being shown
+multiple div containers containing the movie img and a remove button. clicking remove will remove the movie from the list.
+also, a natural language form. holds two inputs allowing user to choose
+
+
+ACCESSING/PRESERVING UNIQUE KEY NAME FROM FIREBASE
+    // listArray.push(dbList[node]);
+    // dbList[node].listKey = node
+-->
